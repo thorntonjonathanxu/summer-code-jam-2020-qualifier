@@ -32,14 +32,16 @@ class Article:
     def __init__(self, title: str, author: str, publication_date: datetime.datetime, content: str):
       self.title = title
       self.author = author
-      self.publication_date = datetime.datetime.isoformat(publication_date)
+      # self.publication_date = datetime.datetime.isoformat(publication_date)
+      self.publication_date = publication_date
       self.content = content
       pass
 
     def __repr__(self):
-      return '{self.__class__.__name__} title="{self.title}" author="{self.author}" publication_date="{self.publication_date}"'.format(self=self)
+      self.publication_date = datetime.datetime.isoformat(self.publication_date)
+      return '<{self.__class__.__name__} title="{self.title}" author=\'{self.author}\' publication_date=\'{self.publication_date}\'>'.format(self=self)
 
-    def len(self):
+    def __len__(self):
       return len(self.content)
 
     def short_introduction(self, n_characters):
@@ -60,4 +62,6 @@ class Article:
           words_dict[word] = 1
       return {k: v for k, v in sorted(words_dict.items(), key=lambda item: item[1],reverse=True)[:n_words]}
 
-fairytale = Article(title="The emperor's new clothes",author="Hans Christian Andersen",content="'But he has nothing at all on!' at last cried out all the people. The Emperor was vexed, for he knew that the people were right.",publication_date=datetime.datetime(1837, 4, 7, 12, 15, 0))
+# fairytale = Article(title="The emperor's new clothes",author="Hans Christian Andersen",content="'But he has nothing at all on!' at last cried out all the people. The Emperor was vexed, for he knew that the people were right.",publication_date=datetime.datetime(1837, 4, 7, 12, 15, 0))
+
+# print(fairytale)
