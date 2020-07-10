@@ -15,7 +15,8 @@ Important notes for submission:
 """
 import datetime
 import typing
-
+import textwrap
+from collections import Counter
 
 class ArticleField:
     """The `ArticleField` class for the Advanced Requirements."""
@@ -30,14 +31,36 @@ class Article:
     def __init__(self, title: str, author: str, publication_date: datetime.datetime, content: str):
       self.title = title
       self.author = author
-      self.publication_date = publication_date
+      self.publication_date = datetime.datetime.isoformat(publication_date)
       self.content = content
       pass
 
     def __repr__(self):
-      print('Article title={0} author={1} publication_date={2}'.format(self.title, self.author, datetime.datetime.isoformat(self.publication_date)))
-      # return {'Article ', 'Title':self.title, 'Author':self.author, 'publication_date'}
+      return '{self.__class__.__name__} title="{self.title}" author="{self.author}" publication_date="{self.publication_date}"'.format(self=self)
+
+    def len(self):
+      return len(self.content)
+
+    def short_introduction(self, n_characters):
+      # spaces = [n for n in range(n_characters+1) if self.content.find(' ',n) == n]
+      # return self.content[:spaces[-1]]
+      return textwrap.wrap(self.content, n_characters, break_long_words=False)[0]
+
+    def most_common_words(self,n_words):
+      words_dict = {}
+      for word in self.content:
+        if word in words_dict:
+          words_dict[word] += 1
+        else:
+          words_dict[word] = 1
+      return sorted(words_dict,key = words_dict.gets, reverse=True)[:n_words]
+
+
+
 
 
 fairytale = Article(title="The emperor's new clothes",author="Hans Christian Andersen",content="'But he has nothing at all on!' at last cried out all the people. The Emperor was vexed, for he knew that the people were right.",publication_date=datetime.datetime(1837, 4, 7, 12, 15, 0))
-fairytale.__repr__()
+print(fairytale)
+print(fairytale.len())
+print(fairytale.short_introduction(60))
+fairytale.most_common_words(5)
