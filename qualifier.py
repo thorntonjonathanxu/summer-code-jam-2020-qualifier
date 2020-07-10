@@ -16,7 +16,8 @@ Important notes for submission:
 import datetime
 import typing
 import textwrap
-from collections import Counter
+import re
+
 
 class ArticleField:
     """The `ArticleField` class for the Advanced Requirements."""
@@ -48,19 +49,15 @@ class Article:
 
     def most_common_words(self,n_words):
       words_dict = {}
-      for word in self.content:
+      temp = self.content.strip().lower()
+      temp = re.sub('[^0-9a-zA-Z]+', ' ', temp) #Replace non alphanumeric characters
+      temp =temp.strip()
+      word_list = temp.split(' ')
+      for word in word_list:
         if word in words_dict:
           words_dict[word] += 1
         else:
           words_dict[word] = 1
-      return sorted(words_dict,key = words_dict.gets, reverse=True)[:n_words]
-
-
-
-
+      return {k: v for k, v in sorted(words_dict.items(), key=lambda item: item[1],reverse=True)[:n_words]}
 
 fairytale = Article(title="The emperor's new clothes",author="Hans Christian Andersen",content="'But he has nothing at all on!' at last cried out all the people. The Emperor was vexed, for he knew that the people were right.",publication_date=datetime.datetime(1837, 4, 7, 12, 15, 0))
-print(fairytale)
-print(fairytale.len())
-print(fairytale.short_introduction(60))
-fairytale.most_common_words(5)
