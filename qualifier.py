@@ -17,6 +17,8 @@ import datetime
 import typing
 import textwrap
 import re
+# from itertools import count
+
 
 
 class ArticleField:
@@ -29,13 +31,31 @@ class ArticleField:
 class Article:
     """The `Article` class you need to write for the qualifier."""
 
+    # _ids = count(0)
+    _ids = -1
     def __init__(self, title: str, author: str, publication_date: datetime.datetime, content: str):
+      # self.id = next(self._ids)
+      Article._ids += 1
+      self.id = Article._ids
       self.title = title
       self.author = author
-      # self.publication_date = datetime.datetime.isoformat(publication_date)
       self.publication_date = publication_date
       self.content = content
+      self.last_edited = None
       pass
+
+    # @property
+    # def content(self):
+    #   return self._content
+
+    # @content.setter
+    # def content(self,x):
+    #   if (self.content == x):
+    #     return self._content
+    #   else:
+    #     self.last_edited = datetime.datetime.now()
+    #     self.content = x
+    #     return self._content
 
     def __repr__(self):
       self.publication_date = datetime.datetime.isoformat(self.publication_date)
@@ -62,6 +82,18 @@ class Article:
           words_dict[word] = 1
       return {k: v for k, v in sorted(words_dict.items(), key=lambda item: item[1],reverse=True)[:n_words]}
 
+#Beginner Level Test Cases----------------------------------------------------------
 # fairytale = Article(title="The emperor's new clothes",author="Hans Christian Andersen",content="'But he has nothing at all on!' at last cried out all the people. The Emperor was vexed, for he knew that the people were right.",publication_date=datetime.datetime(1837, 4, 7, 12, 15, 0))
-
 # print(fairytale)
+
+
+#Intermediate Level Test Cases-------------------------------------------------------
+# article_one = Article(title="PEP-8", author="Guide van Rossum", content="Use snake_case", publication_date=datetime.datetime(2001, 7, 5))
+# print(article_one.id)
+# article_two = Article(title="Fluent Python", author="Luciano Ramalho", content="Effective Programming", publication_date=datetime.datetime(2015, 8, 20))
+# print(article_two.id)
+
+# print(fairytale.last_edited)
+# fairytale.content = "I'm making a change to the content of this article"
+# print(fairytale.last_edited)
+# print(fairytale.__dict__)
